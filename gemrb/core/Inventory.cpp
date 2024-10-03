@@ -37,6 +37,9 @@
 #include "GameScript/GSUtils.h"
 #include "Scriptable/Actor.h"
 #include "fmt/ranges.h"
+#include "fmt/color.h"
+#include "colors.2da"
+
 
 #include <cstdio>
 
@@ -149,6 +152,7 @@ void Inventory::AddItem(CREItem *item)
 	if (!item) return; //invalid items get no slot
 	Slots.push_back(item);
 	CalculateWeight();
+	SetContainerColor();
 }
 
 void Inventory::CalculateWeight()
@@ -553,6 +557,7 @@ CREItem *Inventory::RemoveItem(unsigned int slot, unsigned int count)
 	item->Usages[0]-=count;
 	returned->Usages[0]=(ieWord) count;
 	CalculateWeight();
+	SetContainerColor();
 	return returned;
 }
 
@@ -2095,4 +2100,13 @@ int Inventory::InBackpack(int slot) const
 	return slot >= SLOT_INV && slot <= LAST_INV;
 }
 
+void Inventory::SetContainerColor() {
+	if (GUIEnhancement & 0x20) {			// check if 32 bit is set
+		if (IsEmpty()) {
+			SetColor(color.LIGHT_GREY);		// light grey from colors.2da
+		}
+		else 
+			SetColor(color.ALTCONTAINER);
+	}
+			
 }
