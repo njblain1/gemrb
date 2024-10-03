@@ -228,6 +228,7 @@ public:
 
 	void SetInventoryType(ieInventoryType arg);
 	void SetOwner(Actor* act) { Owner = act; }
+	void SetContainerColor();
 
 	/** returns number of all slots in the inventory */
 	int GetSlotCount() const { return (int)Slots.size(); }
